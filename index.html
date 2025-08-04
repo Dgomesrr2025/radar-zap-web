@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RadarZap Web</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        header { background: #075e54; color: white; padding: 15px; font-size: 20px; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
+        textarea, input[type="file"] { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { margin-top: 15px; padding: 10px 20px; background: #25d366; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .output { margin-top: 20px; background: #e6ffed; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <header>RadarZap Web Dashboard</header>
+    <div class="container">
+        <h2>Colar mensagem de grupo ou subir imagem</h2>
+        <textarea id="textInput" placeholder="Cole aqui uma mensagem do grupo..."></textarea>
+        <input type="file" accept="image/*" />
+        <button onclick="processText()">Analisar</button>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function processText() {
+            const input = document.getElementById("textInput").value.toLowerCase();
+            const output = document.getElementById("output");
+            const tags = ["governo", "acidente", "saúde", "fronteira", "educação", "crime", "invasão", "yanomami"];
+            const suggestions = tags.filter(tag => input.includes(tag));
+            if (suggestions.length > 0) {
+                output.innerHTML = "<strong>Possível notícia:</strong><br>Tags detectadas: " + suggestions.join(", ");
+            } else {
+                output.innerHTML = "Nenhuma tag relevante detectada.";
+            }
+        }
+    </script>
+</body>
+</html>
