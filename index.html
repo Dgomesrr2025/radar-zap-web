@@ -1,103 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RadarZap - Painel de Captura</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RadarZap Web</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #e5f6ee;
-    }
-    header {
-      background-color: #25D366;
-      padding: 1rem;
-      text-align: center;
-      color: white;
-      font-size: 1.5rem;
-    }
-    main {
-      padding: 1rem;
-    }
-    .card {
-      background-color: white;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .actions {
-      margin-top: 1rem;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f8;
       display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
     }
+
+    header {
+      background-color: #075e54;
+      width: 100%;
+      padding: 20px 0;
+      color: white;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .container {
+      background: white;
+      margin-top: 40px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: none;
+      margin-bottom: 15px;
+    }
+
+    input[type="file"] {
+      display: block;
+      margin: 10px 0 20px;
+    }
+
     button {
       background-color: #25D366;
       color: white;
+      padding: 12px 20px;
       border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1cb655;
-    }
-    .preview-img {
-      width: 100%;
-      max-width: 300px;
-      display: block;
-      margin-top: 1rem;
       border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1da851;
+    }
+
+    .resultado {
+      margin-top: 25px;
+      padding: 15px;
+      background-color: #e6ffed;
+      border-left: 5px solid #25D366;
+      font-size: 0.95rem;
+      color: #333;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <header>RadarZap - Painel de Captura</header>
-  <main>
-    <div class="card">
-      <h3>Texto Capturado</h3>
-      <textarea id="capturedText" rows="6" style="width: 100%;"></textarea>
-      <div class="actions">
-        <button onclick="salvarTexto()">Salvar</button>
-        <button onclick="agendarPostagem()">Agendar Post</button>
-      </div>
-    </div>
 
-    <div class="card">
-      <h3>Imagem Capturada</h3>
-      <input type="file" id="imagemInput" accept="image/*" onchange="mostrarImagem()">
-      <img id="imagemPreview" class="preview-img" style="display: none;">
-      <div class="actions">
-        <button onclick="salvarImagem()">Salvar Imagem</button>
-      </div>
+  <header>
+    📡 RadarZap Web
+  </header>
+
+  <div class="container">
+    <h2>Capturar mensagem ou mídia de grupo</h2>
+
+    <textarea id="mensagem" placeholder="Cole aqui a mensagem de grupo..."></textarea>
+
+    <input type="file" id="arquivo" accept="image/*,video/*" />
+
+    <button onclick="analisar()">Analisar</button>
+
+    <div class="resultado" id="resultado">
+      <strong>Resultado:</strong> Nenhuma análise feita ainda.
     </div>
-  </main>
+  </div>
 
   <script>
-    function salvarTexto() {
-      const texto = document.getElementById('capturedText').value;
-      alert('Texto salvo com sucesso!\n\n' + texto);
-    }
+    function analisar() {
+      const msg = document.getElementById('mensagem').value.trim();
+      const arquivo = document.getElementById('arquivo').files[0];
+      const res = document.getElementById('resultado');
 
-    function agendarPostagem() {
-      alert('Post agendado com sucesso!');
-    }
+      let output = '';
+      if (msg) output += `📝 Mensagem: ${msg}<br>`;
+      if (arquivo) output += `📎 Arquivo selecionado: ${arquivo.name}<br>`;
+      if (!msg && !arquivo) output = '⚠️ Nenhum conteúdo fornecido para análise.';
 
-    function mostrarImagem() {
-      const input = document.getElementById('imagemInput');
-      const preview = document.getElementById('imagemPreview');
-      const file = input.files[0];
-      if (file) {
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = 'block';
-      }
-    }
-
-    function salvarImagem() {
-      alert('Imagem salva com sucesso!');
+      res.innerHTML = '<strong>Resultado:</strong><br>' + output;
+      res.style.display = 'block';
     }
   </script>
+
 </body>
 </html>
