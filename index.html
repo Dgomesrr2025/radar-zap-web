@@ -1,41 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RadarZap Web</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-        header { background: #075e54; color: white; padding: 15px; font-size: 20px; }
-        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
-        textarea, input[type="file"] { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
-        button { margin-top: 15px; padding: 10px 20px; background: #25d366; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .output { margin-top: 20px; background: #e6ffed; padding: 10px; border-radius: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RadarZap - Painel de Captura</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #e5f6ee;
+    }
+    header {
+      background-color: #25D366;
+      padding: 1rem;
+      text-align: center;
+      color: white;
+      font-size: 1.5rem;
+    }
+    main {
+      padding: 1rem;
+    }
+    .card {
+      background-color: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    button {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1cb655;
+    }
+    .preview-img {
+      width: 100%;
+      max-width: 300px;
+      display: block;
+      margin-top: 1rem;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-    <header>RadarZap Web Dashboard</header>
-    <div class="container">
-        <h2>Colar mensagem de grupo ou subir imagem</h2>
-        <textarea id="textInput" placeholder="Cole aqui uma mensagem do grupo..."></textarea>
-        <input type="file" accept="image/*" />
-        <button onclick="processText()">Analisar</button>
-        <div class="output" id="output"></div>
+  <header>RadarZap - Painel de Captura</header>
+  <main>
+    <div class="card">
+      <h3>Texto Capturado</h3>
+      <textarea id="capturedText" rows="6" style="width: 100%;"></textarea>
+      <div class="actions">
+        <button onclick="salvarTexto()">Salvar</button>
+        <button onclick="agendarPostagem()">Agendar Post</button>
+      </div>
     </div>
 
-    <script>
-        function processText() {
-            const input = document.getElementById("textInput").value.toLowerCase();
-            const output = document.getElementById("output");
-            const tags = ["governo", "acidente", "saúde", "fronteira", "educação", "crime", "invasão", "yanomami"];
-            const suggestions = tags.filter(tag => input.includes(tag));
-            if (suggestions.length > 0) {
-                output.innerHTML = "<strong>Possível notícia:</strong><br>Tags detectadas: " + suggestions.join(", ");
-            } else {
-                output.innerHTML = "Nenhuma tag relevante detectada.";
-            }
-        }
-    </script>
+    <div class="card">
+      <h3>Imagem Capturada</h3>
+      <input type="file" id="imagemInput" accept="image/*" onchange="mostrarImagem()">
+      <img id="imagemPreview" class="preview-img" style="display: none;">
+      <div class="actions">
+        <button onclick="salvarImagem()">Salvar Imagem</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function salvarTexto() {
+      const texto = document.getElementById('capturedText').value;
+      alert('Texto salvo com sucesso!\n\n' + texto);
+    }
+
+    function agendarPostagem() {
+      alert('Post agendado com sucesso!');
+    }
+
+    function mostrarImagem() {
+      const input = document.getElementById('imagemInput');
+      const preview = document.getElementById('imagemPreview');
+      const file = input.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      }
+    }
+
+    function salvarImagem() {
+      alert('Imagem salva com sucesso!');
+    }
+  </script>
 </body>
 </html>
